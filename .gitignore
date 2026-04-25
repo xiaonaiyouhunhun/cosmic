@@ -1,0 +1,122 @@
+# common
+.idea/
+.git/
+logs/
+build/
+filestorage/
+script_modules/
+
+# Gradle
+build
+.gradle
+.gradle/
+
+testdata/
+# Java gitignore #
+.class
+*.class
+.log
+
+# Package Files #
+
+*.war
+*.ear
+
+#hsf files
+configuration
+
+# maven gitignore#
+**/target/**
+target/**
+
+.svn/
+
+# intelliJ.gitignore #
+.idea
+*.iml
+*.ipr
+*.iws
+
+# Eclipse git ignore#
+*.pydevproject
+.project
+.metadata
+bin/**
+*/bin/**
+**/bin/**
+local_dataentity/
+tmp/**
+tmp/**/*
+configuration/**
+*.tmp
+*.bak
+*.orig
+*.swp
+*~.nib
+.classpath
+.settings/
+.loadpath
+.fileTable*
+.cache
+target/**
+*/target/**
+
+# External tool builders
+.externalToolBuilders/
+
+# Locally stored "Eclipse launch configurations"
+*.launch
+
+# CDT-specific
+.cproject
+
+# PDT-specific
+.buildpath
+
+#log
+*.log
+*.log.*
+
+#ZK
+zookeeper
+
+# Windows Thumbs.db
+*.db
+
+# OSX
+.DS_Store
+
+# sass gitignore#
+.sass-cache
+.idea
+
+# tcc_coverage
+coverage.ec
+
+# pmd
+.pmd
+
+config.client.*
+
+temp/
+*.pid
+*.orig
+
+hsf.configuration/
+
+# code coverage report
+*.ec
+
+#hsf test
+*.instance
+out
+**/idea-sandbox
+
+
+#sonar
+.sonar_lock
+class-mapping.csv
+findbugs-*.xml
+
+*.hprof
+report-task.txt
