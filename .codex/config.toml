@@ -1,0 +1,29 @@
+# >>> init-codex managed mcp begin >>>
+# Managed by init-codex.cmd. Put custom project settings outside this block.
+
+[mcp_servers.my-jar-viewer]
+command = "node"
+args = [
+  'C:\mysoftPlugin\MY-jar-viewer\index.js'
+]
+enabled = true
+
+[mcp_servers.my-knowledge]
+url = "https://aiwf.mypaas.com/mcp/qa/sse"
+enabled = true
+
+[mcp_servers.my-localmcp]
+command = "python"
+args = [
+  "C:\\mysoftPlugin\\LocalMCP\\server.py",
+  "--log-level",
+  "DEBUG",
+  "--base-url",
+  "http://aicode.mingyuanyun.com",
+  "--app-id",
+  "AIchajian",
+  "--app-key",
+  "8d6b80e94b4d462c"
+]
+enabled = true
+# <<< init-codex managed mcp end <<<
