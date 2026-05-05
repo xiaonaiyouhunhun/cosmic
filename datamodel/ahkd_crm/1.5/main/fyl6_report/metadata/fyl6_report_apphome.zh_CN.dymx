@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<DeployMetadata>
+  <MasterId>5RAHWHMFYEIE</MasterId>
+  <Id>5RAHWHMFYEIE</Id>
+  <DesignMetas>
+    <DesignFormMetaL>
+      <Number>fyl6_report_apphome</Number>
+      <PkId>5RAHWHYQK79V</PkId>
+      <DataXml>
+        <FormMetadata/>
+      </DataXml>
+      <Name>报表_应用首页</Name>
+      <Id>5RAHWHMFYEIE</Id>
+      <LocaleId>zh_CN</LocaleId>
+    </DesignFormMetaL>
+    <DesignEntityMetaL>
+      <Number>fyl6_report_apphome</Number>
+      <PkId>5RAHWI/8GF4Z</PkId>
+      <DataXml>
+        <EntityMetadata/>
+      </DataXml>
+      <Name>报表_应用首页</Name>
+      <Id>5RAHWHMFYEIE</Id>
+      <LocaleId>zh_CN</LocaleId>
+    </DesignEntityMetaL>
+  </DesignMetas>
+  <Version>1777571656107</Version>
+  <BOSVersion>1.0</BOSVersion>
+</DeployMetadata>

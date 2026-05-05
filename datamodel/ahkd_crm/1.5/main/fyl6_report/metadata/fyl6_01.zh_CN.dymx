@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<DeployMetadata>
+  <MasterId>5RAJH17PWTV1</MasterId>
+  <Id>5RAJH17PWTV1</Id>
+  <DesignMetas>
+    <DesignFormMetaL>
+      <Number>fyl6_01</Number>
+      <PkId>5RDVPJLO4ZK/</PkId>
+      <DataXml>
+        <FormMetadata/>
+      </DataXml>
+      <Name>报表测试</Name>
+      <Id>5RAJH17PWTV1</Id>
+      <LocaleId>zh_CN</LocaleId>
+    </DesignFormMetaL>
+    <DesignEntityMetaL>
+      <Number>fyl6_01</Number>
+      <PkId>5RDVPJT/LR39</PkId>
+      <DataXml>
+        <EntityMetadata/>
+      </DataXml>
+      <Name>报表测试</Name>
+      <Id>5RAJH17PWTV1</Id>
+      <LocaleId>zh_CN</LocaleId>
+    </DesignEntityMetaL>
+  </DesignMetas>
+  <Version>1777655121470</Version>
+  <BOSVersion>1.0</BOSVersion>
+</DeployMetadata>

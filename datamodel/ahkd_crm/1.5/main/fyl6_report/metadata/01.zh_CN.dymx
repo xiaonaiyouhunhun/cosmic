@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<DeployMetadata>
+  <MasterId>5RAJKVAPEEI9</MasterId>
+  <Id>5RAJKVAPEEI9</Id>
+  <DesignMetas>
+    <DesignFormMetaL>
+      <Number>01</Number>
+      <PkId>5RAJL1E5J649</PkId>
+      <DataXml>
+        <FormMetadata/>
+      </DataXml>
+      <Name>01</Name>
+      <Id>5RAJKVAPEEI9</Id>
+      <LocaleId>zh_CN</LocaleId>
+    </DesignFormMetaL>
+    <DesignEntityMetaL>
+      <Number>01</Number>
+      <PkId>5RAJL18CUW1U</PkId>
+      <DataXml>
+        <EntityMetadata/>
+      </DataXml>
+      <Name>01</Name>
+      <Id>5RAJKVAPEEI9</Id>
+      <LocaleId>zh_CN</LocaleId>
+    </DesignEntityMetaL>
+  </DesignMetas>
+  <Version>1777572744810</Version>
+  <BOSVersion>1.0</BOSVersion>
+</DeployMetadata>

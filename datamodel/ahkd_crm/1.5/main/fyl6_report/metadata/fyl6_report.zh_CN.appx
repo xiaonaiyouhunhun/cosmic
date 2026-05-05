@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<DeployAppMetadata>
+  <MasterId>5RAHWFC7UDPR</MasterId>
+  <Id>5RAHWFC7UDPR</Id>
+  <DesignMetas>
+    <DesignAppMetaL>
+      <PkId>5RR66Q7VJUSQ</PkId>
+      <DataXml>
+        <AppMetadata/>
+      </DataXml>
+      <Name>报表</Name>
+      <Description>这是一个新的应用</Description>
+      <Id>5RAHWFC7UDPR</Id>
+      <LocaleId>zh_CN</LocaleId>
+    </DesignAppMetaL>
+  </DesignMetas>
+  <BOSVersion>1.0</BOSVersion>
+</DeployAppMetadata>
