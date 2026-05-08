@@ -20,13 +20,16 @@ import kd.bos.entity.report.AbstractReportColumn;
 import kd.bos.entity.report.DecimalReportColumn;
 import kd.bos.entity.report.FilterInfo;
 import kd.bos.entity.report.ReportColumn;
+import kd.bos.entity.report.ReportColumnGroup;
 import kd.bos.entity.report.ReportQueryParam;
 
 public class SecUserDateReportQueryPlugin extends AbstractReportListDataPlugin {
 
     private static final String BUSINESS_OPPORTUNITY_TABLE = "tk_ahkd_busopportunity";
     private static final String EXTEND_DB_ROUTE = "secd";
-    private static final String PROJECT_COUNT_TITLE = "立项数量统计";
+    private static final String PROJECT_COUNT_GROUP_TITLE = "\u7acb\u9879\u6570\u636e\u7edf\u8ba1";
+    private static final String PROJECT_COUNT_GROUP_FIELD = "project_count_group";
+    private static final String PROJECT_COUNT_TITLE = PROJECT_COUNT_GROUP_TITLE;
     private static final String DEPARTMENT_ENTITY = "bos_adminorg";
     private static final String SALES_ENTITY = "bos_user";
 
@@ -62,6 +65,12 @@ public class SecUserDateReportQueryPlugin extends AbstractReportListDataPlugin {
         reportColumns.add(createNumberColumn(RFQ_S4_S6_RATE_FIELD, "RFQ(S4-S6)比例", 4, 130, true, PROJECT_COUNT_TITLE));
         reportColumns.add(createNumberColumn(LOST_RATE_FIELD, "Lost比例/丢单率", 4, 130, true, PROJECT_COUNT_TITLE));
         reportColumns.add(createNumberColumn(AWARDED_RATE_FIELD, "Awarded比例/赢单率", 4, 140, true, PROJECT_COUNT_TITLE));
+        ReportColumnGroup reportColumnGroup = new ReportColumnGroup();
+        reportColumnGroup.setFieldKey(PROJECT_COUNT_GROUP_FIELD);
+        reportColumnGroup.setCaption(new LocaleString(PROJECT_COUNT_GROUP_TITLE));
+        reportColumnGroup.getChildren().addAll(new ArrayList<>(reportColumns.subList(2, reportColumns.size())));
+        reportColumns.subList(2, reportColumns.size()).clear();
+        reportColumns.add(reportColumnGroup);
         return reportColumns;
     }
 
