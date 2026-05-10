@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 import kd.bos.algo.DataSet;
+import kd.bos.context.RequestContext;
 import kd.bos.dataentity.entity.DynamicObject;
 import kd.bos.dataentity.entity.DynamicObjectCollection;
 import kd.bos.dataentity.entity.LocaleString;
@@ -98,6 +99,8 @@ public class SecUserDateReportQueryPlugin extends AbstractReportListDataPlugin {
         sql.append(rateExpr("bo.fk_ahkd_currentstage = '4'")).append(" as ").append(AWARDED_RATE_FIELD).append(" ");
         sql.append("from ").append(BUSINESS_OPPORTUNITY_TABLE).append(" bo ");
         sql.append("where 1 = 1");
+        sql.append(" and bo.fcreatorid = ?");
+        params.add(getCurrentUserId());
 
         appendDateFilter(sql, params, filter);
         appendInFilter(sql, params, filter, "bo.fk_ahkd_basedatafield_bo",
@@ -112,6 +115,11 @@ public class SecUserDateReportQueryPlugin extends AbstractReportListDataPlugin {
         sql.append(" group by bo.fk_ahkd_basedatafield_bo, bo.fk_ahkd_recmanager");
         sql.append(" order by bo.fk_ahkd_basedatafield_bo, bo.fk_ahkd_recmanager");
         return DB.queryDataSet(this.getClass().getName(), DBRoute.of(EXTEND_DB_ROUTE), sql.toString(), params.toArray());
+    }
+
+    private long getCurrentUserId() {
+        RequestContext requestContext = RequestContext.get();
+        return requestContext == null ? 0L : requestContext.getCurrUserId();
     }
 
     private ReportColumn createBaseDataColumn(String fieldKey, String caption, String entityId, int width) {

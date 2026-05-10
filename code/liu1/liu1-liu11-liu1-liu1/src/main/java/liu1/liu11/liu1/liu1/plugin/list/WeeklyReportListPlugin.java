@@ -67,9 +67,9 @@ public class WeeklyReportListPlugin extends AbstractListPlugin {
 
         int rows = DB.update(DBRoute.of(EXTEND_DB_ROUTE), sql, params);
         if (rows > 0) {
-            int paymentRows = createPaymentWorkRows(fid, now);
-            int followRows = createOpportunityFollowRows(fid, now);
-            int actionRows = createActionRecordRows(fid, now, LocalDate.now());
+            int paymentRows = createPaymentWorkRows(fid, now, currentUserId);
+            int followRows = createOpportunityFollowRows(fid, now, currentUserId);
+            int actionRows = createActionRecordRows(fid, now, LocalDate.now(), currentUserId);
             this.getView().showSuccessNotification(String.format(
                     "\u5df2\u751f\u6210%s\u5e74%s\u6708\u7b2c%s\u5468\u5468\u62a5\uff0c\u56de\u6b3e\u5de5\u4f5c%s\u6761\uff0c\u5546\u673a\u8ddf\u8fdb%s\u6761\uff0c\u672c\u5468\u884c\u52a8%s\u6761",
                     weeklyDate.year, weeklyDate.month, weeklyDate.weekOfMonth, paymentRows, followRows, actionRows));
@@ -109,8 +109,8 @@ public class WeeklyReportListPlugin extends AbstractListPlugin {
         return count != null && count > 0;
     }
 
-    private int createPaymentWorkRows(long weeklyReportId, Timestamp now) {
-        List<PaymentWorkInfo> paymentWorkInfos = queryPaymentWorkInfos();
+    private int createPaymentWorkRows(long weeklyReportId, Timestamp now, long currentUserId) {
+        List<PaymentWorkInfo> paymentWorkInfos = queryPaymentWorkInfos(currentUserId);
         if (paymentWorkInfos.isEmpty()) {
             return 0;
         }
@@ -131,11 +131,12 @@ public class WeeklyReportListPlugin extends AbstractListPlugin {
         return countBatchSuccess(DB.executeBatch(DBRoute.of(EXTEND_DB_ROUTE), sql, batchParams));
     }
 
-    private List<PaymentWorkInfo> queryPaymentWorkInfos() {
+    private List<PaymentWorkInfo> queryPaymentWorkInfos(long currentUserId) {
         String sql = "select fk_ahkd_decimalfield5 as receivable_amount,"
                 + " fk_ahkd_decimalfield6 as overdue_amount, fk_ahkd_project as project_name from " + RECEIVABLE_TABLE
-                + " where fk_ahkd_decimalfield5 > 0 order by fid";
-        return DB.query(DBRoute.of(EXTEND_DB_ROUTE), sql, rs -> {
+                + " where fk_ahkd_decimalfield5 > 0 and fk_ahkd_salesmanager = ? order by fid";
+        Object[] params = new Object[] { currentUserId };
+        return DB.query(DBRoute.of(EXTEND_DB_ROUTE), sql, params, rs -> {
             List<PaymentWorkInfo> paymentWorkInfos = new ArrayList<>();
             while (rs.next()) {
                 paymentWorkInfos.add(new PaymentWorkInfo(formatAmount(rs.getBigDecimal("receivable_amount")),
@@ -145,8 +146,8 @@ public class WeeklyReportListPlugin extends AbstractListPlugin {
         });
     }
 
-    private int createOpportunityFollowRows(long weeklyReportId, Timestamp now) {
-        List<OpportunityFollowInfo> followInfos = queryOpportunityFollowInfos();
+    private int createOpportunityFollowRows(long weeklyReportId, Timestamp now, long currentUserId) {
+        List<OpportunityFollowInfo> followInfos = queryOpportunityFollowInfos(currentUserId);
         if (followInfos.isEmpty()) {
             return 0;
         }
@@ -166,8 +167,8 @@ public class WeeklyReportListPlugin extends AbstractListPlugin {
         return countBatchSuccess(DB.executeBatch(DBRoute.of(EXTEND_DB_ROUTE), sql, batchParams));
     }
 
-    private int createActionRecordRows(long weeklyReportId, Timestamp now, LocalDate currentDate) {
-        List<ActionRecordInfo> actionRecordInfos = queryActionRecordInfos(currentDate);
+    private int createActionRecordRows(long weeklyReportId, Timestamp now, LocalDate currentDate, long currentUserId) {
+        List<ActionRecordInfo> actionRecordInfos = queryActionRecordInfos(currentDate, currentUserId);
         if (actionRecordInfos.isEmpty()) {
             return 0;
         }
@@ -188,7 +189,7 @@ public class WeeklyReportListPlugin extends AbstractListPlugin {
         return countBatchSuccess(DB.executeBatch(DBRoute.of(EXTEND_DB_ROUTE), sql, batchParams));
     }
 
-    private List<ActionRecordInfo> queryActionRecordInfos(LocalDate currentDate) {
+    private List<ActionRecordInfo> queryActionRecordInfos(LocalDate currentDate, long currentUserId) {
         LocalDate weekStart = currentDate.with(WeekFields.of(Locale.CHINA).dayOfWeek(), 1);
         Timestamp startTime = Timestamp.valueOf(weekStart.atStartOfDay());
         Timestamp endTime = Timestamp.valueOf(weekStart.plusWeeks(1).atStartOfDay());
@@ -196,8 +197,9 @@ public class WeeklyReportListPlugin extends AbstractListPlugin {
                 + " fk_ahkd_customer as customer, fk_ahkd_visitdate as visit_date,"
                 + " fk_ahkd_textareafield1 as communication_content, fk_ahkd_xmmc as project_name"
                 + " from " + VISIT_RECORD_TABLE
-                + " where fk_ahkd_visitdate >= ? and fk_ahkd_visitdate < ? order by fk_ahkd_visitdate, fid";
-        Object[] params = new Object[] { startTime, endTime };
+                + " where fk_ahkd_visitdate >= ? and fk_ahkd_visitdate < ? and fcreatorid = ?"
+                + " order by fk_ahkd_visitdate, fid";
+        Object[] params = new Object[] { startTime, endTime, currentUserId };
         return DB.query(DBRoute.of(EXTEND_DB_ROUTE), sql, params, rs -> {
             List<ActionRecordInfo> actionRecordInfos = new ArrayList<>();
             while (rs.next()) {
@@ -233,11 +235,11 @@ public class WeeklyReportListPlugin extends AbstractListPlugin {
         return value.length() <= maxLength ? value : value.substring(0, maxLength);
     }
 
-    private List<OpportunityFollowInfo> queryOpportunityFollowInfos() {
+    private List<OpportunityFollowInfo> queryOpportunityFollowInfos(long currentUserId) {
         String sql = "select fname as opportunity_name, " + businessStatusExpression() + " as biz_status, "
                 + businessStageExpression() + " as biz_stage from " + BUSINESS_OPPORTUNITY_TABLE
-                + " where fk_ahkd_currentstage in (?, ?, ?) order by fid";
-        Object[] params = new Object[] { "1", "2", "3" };
+                + " where fk_ahkd_currentstage in (?, ?, ?) and fcreatorid = ? order by fid";
+        Object[] params = new Object[] { "1", "2", "3", currentUserId };
         return DB.query(DBRoute.of(EXTEND_DB_ROUTE), sql, params, rs -> {
             List<OpportunityFollowInfo> followInfos = new ArrayList<>();
             while (rs.next()) {
